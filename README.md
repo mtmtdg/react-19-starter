@@ -1,69 +1,39 @@
-# React + TypeScript + Vite
+# React 19 Starter
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+这是一个基于 React 19 的现代前端项目启动模板，使用最新的工具链和最佳实践。
 
-Currently, two official plugins are available:
+## 初始创建
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+项目基于 Vite 官方模板创建：
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+pnpm create vite@latest react-19-starter --template react-ts
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## 技术栈选型
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+### 核心框架
+- **React 19** - 最新的 React 版本，支持并发特性和新的 Hooks
+- **Vite** - 快速的构建工具，支持 HMR
 
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+### 状态管理
+- **Jotai** - 轻量级原子化状态管理库
+
+### 路由
+- **React Router DOM** - React 应用的声明式路由
+
+### UI 库
+- **Material-UI** - Google Material Design 组件库
+
+### 表单处理
+- **React Hook Form** - 高性能表单库
+- **Valibot** - 轻量级的数据验证库
+
+### HTTP 客户端
+- **Ky** - 基于 Fetch API 的现代 HTTP 客户端
+
+### 开发工具
+- **Biome** - 快速的代码格式化器和 linter，替代 ESLint 和 Prettier
+- **Vitest** - 基于 Vite 的测试框架
+- **Husky** - Git hooks 管理
+- **lint-staged** - 暂存文件 linting
