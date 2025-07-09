@@ -1,0 +1,29 @@
+[files]
+# 忽略的文件和目录
+extend-exclude = [
+    # 构建和依赖目录
+    "node_modules",
+    "dist",
+    "build",
+    ".git",
+    ".husky",
+
+    # 锁定文件和生成文件
+    "pnpm-lock.yaml",
+    "package-lock.json",
+    "yarn.lock",
+]
+
+[default]
+# 检查文件名
+check-filenames = true
+# 检查字符串
+check-files = true
+# 忽略十六进制数字
+ignore-hex = true
+# 忽略数字
+ignore-digits = true
+
+[default.extend-words]
+# 项目特定词汇 - 仅添加项目中实际使用的术语
+# 可以根据实际需要逐步添加

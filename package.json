@@ -4,26 +4,43 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
+    "preinstall": "npx --yes only-allow pnpm",
+    "prepare": "husky",
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "lint": "eslint .",
-    "preview": "vite preview"
+    "build:clean": "rm -rf dist",
+    "typecheck": "tsc -b --noEmit",
+    "lint": "biome check .",
+    "lint:fix": "biome check --write .",
+    "format": "biome format --write .",
+    "format:check": "biome format .",
+    "typos": "which typos > /dev/null && typos || true",
+    "typos:fix": "which typos > /dev/null && typos --write-changes || true"
+  },
+  "lint-staged": {
+    "*.{ts,tsx,js,jsx,json,jsonc}": [
+      "pnpm run typos:fix",
+      "biome check --write --no-errors-on-unmatched"
+    ],
+    "*.{css,scss,md,yml,yaml}": [
+      "pnpm run typos:fix"
+    ]
   },
   "dependencies": {
     "react": "^19.1.0",
     "react-dom": "^19.1.0"
   },
   "devDependencies": {
-    "@eslint/js": "^9.30.1",
+    "@biomejs/biome": "^2.1.1",
+    "@commitlint/cli": "^19.8.1",
+    "@commitlint/config-conventional": "^19.8.1",
     "@types/react": "^19.1.8",
     "@types/react-dom": "^19.1.6",
     "@vitejs/plugin-react": "^4.6.0",
-    "eslint": "^9.30.1",
-    "eslint-plugin-react-hooks": "^5.2.0",
-    "eslint-plugin-react-refresh": "^0.4.20",
-    "globals": "^16.3.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.1.2",
+    "sass": "^1.89.2",
     "typescript": "~5.8.3",
-    "typescript-eslint": "^8.35.1",
     "vite": "^7.0.3"
   }
 }

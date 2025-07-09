@@ -1,0 +1,188 @@
+{
+  // Biome 最优配置文件 - 基于推荐规则的简化版本
+  // 使用现代语法和最佳实践，避免冗余配置
+  "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
+
+  // 版本控制系统集成
+  "vcs": {
+    "enabled": true,
+    "clientKind": "git",
+    "useIgnoreFile": true,
+    "defaultBranch": "main"
+  },
+
+  // 文件处理配置
+  "files": {
+    "ignoreUnknown": true,
+    "includes": [
+      "**/*.{js,mjs,ts,jsx,tsx,json,jsonc}",
+      // .gitignore 已经包含: node_modules, dist, .DS_Store 等
+      // 这里只配置项目可能需要的额外忽略规则
+      "!**/.claude/**", // claude的工作目录
+      "!**/build/**", // 构建目录 (可能有不同名字)
+      "!**/coverage/**", // 测试覆盖率
+      "!**/.pnpm-store/**", // pnpm 缓存
+      "!**/.cache/**", // 各种缓存
+      "!**/*.min.{js,css}" // 压缩文件
+    ]
+  },
+
+  // 代码格式化配置 - 基于用户偏好
+  "formatter": {
+    "enabled": true,
+    "indentStyle": "space",
+    "indentWidth": 2,
+    "lineWidth": 120,
+    "lineEnding": "lf"
+  },
+
+  // 代码检查配置 - 使用推荐规则作为基础
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "recommended": true,
+      "suspicious": {
+        "noConsole": "error", // 提升
+        "noVar": "error" // 提升
+      },
+      "correctness": {
+        "noUnusedVariables": {
+          "level": "error",
+          "options": {
+            "ignoreRestSiblings": true
+          }
+        },
+        "useExhaustiveDependencies": "error" // 提升：React Hook 依赖检查
+      },
+      "complexity": {
+        "noExcessiveCognitiveComplexity": {
+          "level": "error",
+          "options": {
+            "maxAllowedComplexity": 15
+          }
+        }
+      },
+      "nursery": {
+        "noExcessiveLinesPerFunction": {
+          "level": "error",
+          "options": {
+            "maxLines": 50,
+            "skipBlankLines": true,
+            "skipIifes": false
+          }
+        }
+      },
+      "style": {
+        "noCommonJs": "warn",
+        "noDefaultExport": "error"
+      }
+    },
+    "domains": {
+      "project": "recommended", // 项目级别分析
+      "react": "recommended" // React 相关规则
+    }
+  },
+
+  // JavaScript/TypeScript 格式化配置
+  "javascript": {
+    "formatter": {
+      "quoteStyle": "single",
+      "jsxQuoteStyle": "single",
+      "trailingCommas": "all",
+      "semicolons": "always",
+      "arrowParentheses": "always"
+    }
+  },
+
+  // 针对不同文件类型的规则覆盖
+  "overrides": [
+    {
+      // TSX 文件特定配置 - React 组件通常需要更多行数
+      "includes": ["**/*.tsx"],
+      "linter": {
+        "rules": {
+          "nursery": {
+            "noExcessiveLinesPerFunction": {
+              "level": "error",
+              "options": {
+                "maxLines": 200, // TSX 文件放宽到 200 行
+                "skipBlankLines": true,
+                "skipIifes": true
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      // 配置文件特定规则 - 允许使用 export default
+      "includes": ["**/*.config.{js,mjs,ts}"],
+      "linter": {
+        "rules": {
+          "style": {
+            "noDefaultExport": "off" // 配置文件允许 export default
+          }
+        }
+      }
+    },
+    {
+      // 测试文件特定配置 - 允许更长的函数
+      "includes": ["**/*.test.{js,ts,tsx}"],
+      "linter": {
+        "rules": {
+          "nursery": {
+            "noExcessiveLinesPerFunction": {
+              "level": "error",
+              "options": {
+                "maxLines": 200,
+                "skipBlankLines": true,
+                "skipIifes": true
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      // 构建和工具脚本特定规则 - 允许console输出
+      "includes": ["scripts/**/*.{js,ts}", "server.ts"],
+      "linter": {
+        "rules": {
+          "suspicious": {
+            "noConsole": "off" // 工具脚本允许console输出
+          }
+        }
+      }
+    }
+  ],
+
+  // 代码辅助功能
+  "assist": {
+    "enabled": true,
+    "actions": {
+      "source": {
+        "organizeImports": {
+          "level": "on",
+          "options": {
+            "groups": [
+              { "type": false, "source": [":NODE:"] },
+              ":BLANK_LINE:",
+
+              { "type": false, "source": [":PACKAGE:"] },
+              ":BLANK_LINE:",
+
+              { "type": false, "source": [":ALIAS:"] },
+              ":BLANK_LINE:",
+
+              { "type": false, "source": [":PATH:"] },
+              ":BLANK_LINE:",
+
+              // type导入放在最后
+              { "type": true }
+            ]
+          }
+        }
+      }
+    }
+  }
+}
