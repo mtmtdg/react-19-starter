@@ -1,34 +1,36 @@
+import { Box, Button, Container, Typography } from '@mui/material';
+
 export function Home() {
-  // 简单的内联样式示例
-  const containerStyle = {
-    textAlign: 'center' as const,
-    padding: '2rem',
-  };
-
-  const linkStyle = {
-    color: '#007bff',
-    textDecoration: 'none',
-    margin: '0 1rem',
-    padding: '0.5rem 1rem',
-    border: '1px solid #007bff',
-    borderRadius: '4px',
-    display: 'inline-block',
-  };
-
   return (
-    <div style={containerStyle}>
-      <h1>React 19 Starter</h1>
-      <p>一个现代化的React应用模板</p>
+    <Container maxWidth='sm'>
+      <Box
+        sx={{
+          minHeight: '100vh',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
+          textAlign: 'center',
+        }}
+      >
+        <Typography variant='h3' component='h1' gutterBottom>
+          React 19 Starter
+        </Typography>
 
-      <div>
-        <a href='/login' style={linkStyle}>
-          登录
-        </a>
+        <Typography variant='h6' color='text.secondary'>
+          一个现代化的React应用模板
+        </Typography>
 
-        <a href='/dashboard' style={linkStyle}>
-          进入应用
-        </a>
-      </div>
-    </div>
+        <Box sx={{ mt: 3, display: 'flex', gap: 2 }}>
+          <Button component='a' href='/login' variant='contained' size='large'>
+            登录
+          </Button>
+
+          <Button component='a' href='/dashboard' variant='outlined' size='large'>
+            进入应用
+          </Button>
+        </Box>
+      </Box>
+    </Container>
   );
 }

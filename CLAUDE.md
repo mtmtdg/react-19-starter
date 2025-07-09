@@ -36,7 +36,7 @@ pnpm typos:fix          # Fix typos automatically
 
 **Component Structure:**
 - Components use `.component.tsx` suffix (e.g., `app.component.tsx`)
-- Styles: CSS modules (`.module.scss`) for component-specific styles, inline styles for simple cases
+- Styles: CSS modules (`.module.scss`) for component-specific styles, inline styles for simple cases, MUI components for Material Design
 - Global styles in `index.scss`
 - Authentication layouts in `src/layouts/` for route protection
 - Pages in `src/pages/` directory
@@ -59,7 +59,7 @@ pnpm typos:fix          # Fix typos automatically
 
 - **Package Manager:** pnpm (enforced by preinstall hook)
 - **Node Modules:** Uses pnpm workspace and lock file
-- **Dependencies:** React 19, Vite, TypeScript, Biome, Sass, Jotai, JWT-decode, Ky, React Router DOM
+- **Dependencies:** React 19, Vite, TypeScript, Biome, Sass, Jotai, JWT-decode, Ky, React Router DOM, MUI (Material-UI)
 
 ## Git Workflow
 
@@ -83,5 +83,6 @@ pnpm typos:fix          # Fix typos automatically
 - Function length limited to 50 lines (200 for TSX files)
 - Import organization follows Node → Package → Alias → Path → Types pattern
 - React Hook dependency checking is enforced at error level
-- Uses plain HTML elements with simple CSS (CSS modules for components, inline styles for basic cases)
+- Styling options: Plain HTML with CSS modules, inline styles, or MUI components
+- MUI provides Material Design components with built-in theming and accessibility
 - Keep styling minimal and progressive - this is a starter project for demonstrating development patterns

@@ -1,8 +1,7 @@
+import { Alert, Button, Container, Paper, Stack, TextField, Typography } from '@mui/material';
 import { useState } from 'react';
 
 import { authService } from '@/services/auth.service';
-
-import styles from './login.component.module.scss';
 
 export function Login() {
   const [error, setError] = useState('');
@@ -27,45 +26,37 @@ export function Login() {
   };
 
   return (
-    <div className={styles.container}>
-      <div className={styles.form}>
-        <form onSubmit={handleSubmit}>
-          <h2>LOGIN</h2>
+    <Container maxWidth='xs' sx={{ py: 8 }}>
+      <Paper elevation={3} sx={{ p: 4 }}>
+        <Stack component='form' onSubmit={handleSubmit} noValidate spacing={3}>
+          <Typography variant='h4' component='h2' textAlign='center' gutterBottom>
+            LOGIN
+          </Typography>
 
-          {error && <div className={styles.error}>{error}</div>}
+          {error && (
+            <Alert severity='error' sx={{ mb: 2 }}>
+              {error}
+            </Alert>
+          )}
 
-          <div className={styles.field}>
-            <label htmlFor='email'>Email</label>
-            <input
-              id='email'
-              name='email'
-              type='email'
-              placeholder='Enter your email'
-              className={styles.input}
-              required
-            />
-          </div>
+          <TextField name='email' type='email' label='Email' placeholder='Enter your email' required fullWidth />
 
-          <div className={styles.field}>
-            <label htmlFor='password'>Password</label>
-            <input
-              id='password'
-              name='password'
-              type='password'
-              placeholder='Enter your password'
-              className={styles.input}
-              required
-              minLength={6}
-            />
-          </div>
+          <TextField
+            name='password'
+            type='password'
+            label='Password'
+            placeholder='Enter your password'
+            required
+            fullWidth
+          />
 
-          <button type='submit' className={styles.button} disabled={isSubmitting}>
+          <Button type='submit' variant='contained' size='large' disabled={isSubmitting} sx={{ py: 1.5 }}>
             {isSubmitting ? 'Logging in...' : 'Login'}
-          </button>
+          </Button>
 
-          <p>Demo: Use any email and password to login</p>
-        </form>
-      </div>
-    </div>
+          <Alert severity='info'>Demo: Use any email and password to login</Alert>
+        </Stack>
+      </Paper>
+    </Container>
   );
 }

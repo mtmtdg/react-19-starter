@@ -1,5 +1,7 @@
 import './app.component.scss';
 
+import { CssBaseline, ThemeProvider } from '@mui/material';
+import { createTheme } from '@mui/material/styles';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
 import { RedirectIfLoggedInLayout } from '@/layouts/redirect-if-logged-in/redirect-if-logged-in.layout';
@@ -7,6 +9,24 @@ import { RequireAuthLayout } from '@/layouts/require-auth/require-auth.layout';
 import { Dashboard } from '@/pages/dashboard.component';
 import { Home } from '@/pages/home.component';
 import { Login } from '@/pages/login/login.component';
+
+const theme = createTheme({
+  components: {
+    MuiCssBaseline: {
+      styleOverrides: {
+        '*': {
+          boxSizing: 'border-box',
+        },
+        body: {
+          margin: 0,
+          padding: '20px',
+          fontFamily: 'system-ui, Avenir, Helvetica, Arial, sans-serif',
+          lineHeight: 1.5,
+        },
+      },
+    },
+  },
+});
 
 const router = createBrowserRouter([
   {
@@ -34,5 +54,10 @@ const router = createBrowserRouter([
 ]);
 
 export function App() {
-  return <RouterProvider router={router} />;
+  return (
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <RouterProvider router={router} />
+    </ThemeProvider>
+  );
 }
