@@ -14,6 +14,8 @@ export function Dashboard() {
   };
 
   const navigationHandlers = {
+    toastTest: () => navigate('/toast-test'),
+    dialogTest: () => navigate('/dialog-test'),
     formTest: () => navigate('/form-test'),
   };
 
@@ -47,6 +49,14 @@ export function Dashboard() {
           <Stack direction='row' spacing={2} sx={{ mb: 3 }}>
             <Button variant='contained' color='success' onClick={navigationHandlers.formTest}>
               Form 测试页面
+            </Button>
+
+            <Button variant='contained' color='primary' onClick={navigationHandlers.toastTest}>
+              Toast 测试页面
+            </Button>
+
+            <Button variant='contained' color='secondary' onClick={navigationHandlers.dialogTest}>
+              Dialog 测试页面
             </Button>
           </Stack>
         </CardContent>

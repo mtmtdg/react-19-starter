@@ -10,9 +10,11 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { RedirectIfLoggedInLayout } from '@/layouts/redirect-if-logged-in/redirect-if-logged-in.layout';
 import { RequireAuthLayout } from '@/layouts/require-auth/require-auth.layout';
 import { Dashboard } from '@/pages/dashboard.component';
+import { DialogTest } from '@/pages/dialog-test.component';
 import { FormTest } from '@/pages/form-test.component';
 import { Home } from '@/pages/home.component';
 import { Login } from '@/pages/login/login.component';
+import { ToastTest } from '@/pages/toast-test.component';
 
 const theme = createTheme({
   components: {
@@ -56,6 +58,14 @@ const router = createBrowserRouter([
       {
         path: 'form-test',
         element: <FormTest />,
+      },
+      {
+        path: 'toast-test',
+        element: <ToastTest />,
+      },
+      {
+        path: 'dialog-test',
+        element: <DialogTest />,
       },
     ],
   },
