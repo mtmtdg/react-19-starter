@@ -27,3 +27,12 @@ ignore-digits = true
 [default.extend-words]
 # 项目特定词汇 - 仅添加项目中实际使用的术语
 # 可以根据实际需要逐步添加
+
+# JWT 相关文件配置
+# 目前typos还不支持自定义分组
+# 只能使用type这种一看就歧义的方式来表达
+[type.jwt-related]
+extend-glob = ["**/jwt.test.ts"]
+[type.jwt-related.extend-words]
+"alg" = "alg"
+"typ" = "typ

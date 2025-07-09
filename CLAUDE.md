@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is a React 19 starter project using Vite as the build tool with TypeScript support. The project uses modern tooling including Biome for linting/formatting, pnpm for package management, and Husky for Git hooks.
+This is a React 19 starter project using Vite as the build tool with TypeScript support. The project includes a simple authentication system using Jotai for state management, JWT for authentication, and React Router DOM for routing. The project uses modern tooling including Biome for linting/formatting, pnpm for package management, and Husky for Git hooks.
 
 ## Essential Commands
 
@@ -36,8 +36,10 @@ pnpm typos:fix          # Fix typos automatically
 
 **Component Structure:**
 - Components use `.component.tsx` suffix (e.g., `app.component.tsx`)
-- Styles use `.component.scss` suffix for component-specific styles
+- Styles: CSS modules (`.module.scss`) for component-specific styles, inline styles for simple cases
 - Global styles in `index.scss`
+- Authentication layouts in `src/layouts/` for route protection
+- Pages in `src/pages/` directory
 
 **Code Style (Biome Configuration):**
 - Named exports preferred over default exports (enforced by linter)
@@ -57,13 +59,22 @@ pnpm typos:fix          # Fix typos automatically
 
 - **Package Manager:** pnpm (enforced by preinstall hook)
 - **Node Modules:** Uses pnpm workspace and lock file
-- **Dependencies:** React 19, Vite, TypeScript, Biome, Sass
+- **Dependencies:** React 19, Vite, TypeScript, Biome, Sass, Jotai, JWT-decode, Ky, React Router DOM
 
 ## Git Workflow
 
 - **Hooks:** Husky manages pre-commit hooks
 - **Lint-staged:** Runs typos fix and Biome check on staged files
 - **Commit Convention:** Uses conventional commits with commitlint
+
+## Authentication System
+
+- **State Management:** Jotai atoms for user authentication state
+- **JWT Handling:** jwt-decode for token parsing
+- **HTTP Client:** Ky for API requests
+- **Route Protection:** Layout components for auth guards (`RequireAuthLayout`, `RedirectIfLoggedInLayout`)
+- **Form Handling:** Simple native HTML form validation
+- **Path Alias:** `@/` maps to `src/` directory
 
 ## Development Notes
 
@@ -72,3 +83,5 @@ pnpm typos:fix          # Fix typos automatically
 - Function length limited to 50 lines (200 for TSX files)
 - Import organization follows Node → Package → Alias → Path → Types pattern
 - React Hook dependency checking is enforced at error level
+- Uses plain HTML elements with simple CSS (CSS modules for components, inline styles for basic cases)
+- Keep styling minimal and progressive - this is a starter project for demonstrating development patterns
