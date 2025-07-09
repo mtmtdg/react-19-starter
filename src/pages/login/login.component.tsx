@@ -1,34 +1,43 @@
-import { Alert, Button, Container, Paper, Stack, TextField, Typography } from '@mui/material';
+import { valibotResolver } from '@hookform/resolvers/valibot';
+import { Alert, Container, Paper, Stack, Typography } from '@mui/material';
 import { useState } from 'react';
+import * as v from 'valibot';
 
+import { FormFieldText, SubmitButton, useInitCheckForm } from '@/components/form-tools';
 import { authService } from '@/services/auth.service';
+
+export const loginSchema = v.object({
+  email: v.pipe(v.string(), v.nonEmpty(), v.email()),
+  password: v.pipe(v.string(), v.nonEmpty(), v.minLength(6)),
+});
+
+export type LoginFormData = v.InferInput<typeof loginSchema>;
 
 export function Login() {
   const [error, setError] = useState('');
-  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+  const { control, handleSubmit } = useInitCheckForm<LoginFormData>({
+    resolver: valibotResolver(loginSchema),
+    defaultValues: {
+      email: '',
+      password: '',
+    },
+  });
+
+  const onSubmit = async (data: LoginFormData) => {
     setError('');
-    setIsSubmitting(true);
-
-    const formData = new FormData(event.currentTarget);
-    const email = formData.get('email') as string;
-    const password = formData.get('password') as string;
 
     try {
-      await authService.login(email, password);
+      await authService.login(data.email, data.password);
     } catch {
       setError('Login failed. Please check your credentials.');
-    } finally {
-      setIsSubmitting(false);
     }
   };
 
   return (
     <Container maxWidth='xs' sx={{ py: 8 }}>
       <Paper elevation={3} sx={{ p: 4 }}>
-        <Stack component='form' onSubmit={handleSubmit} noValidate spacing={3}>
+        <Stack component='form' onSubmit={handleSubmit(onSubmit)} noValidate spacing={3}>
           <Typography variant='h4' component='h2' textAlign='center' gutterBottom>
             LOGIN
           </Typography>
@@ -39,20 +48,27 @@ export function Login() {
             </Alert>
           )}
 
-          <TextField name='email' type='email' label='Email' placeholder='Enter your email' required fullWidth />
+          <FormFieldText
+            name='email'
+            control={control}
+            type='email'
+            label='Email'
+            placeholder='Enter your email'
+            required
+          />
 
-          <TextField
+          <FormFieldText
             name='password'
+            control={control}
             type='password'
             label='Password'
             placeholder='Enter your password'
             required
-            fullWidth
           />
 
-          <Button type='submit' variant='contained' size='large' disabled={isSubmitting} sx={{ py: 1.5 }}>
-            {isSubmitting ? 'Logging in...' : 'Login'}
-          </Button>
+          <SubmitButton control={control} variant='contained' size='large' sx={{ py: 1.5 }}>
+            Login
+          </SubmitButton>
 
           <Alert severity='info'>Demo: Use any email and password to login</Alert>
         </Stack>
