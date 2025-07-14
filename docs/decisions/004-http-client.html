@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<title>004-http-client.html</title>
+<meta http-equiv="Content-Type" content="application/xhtml+xml;charset=utf-8"/>
+<link rel="stylesheet" type="text/css" media="all" href="https://cdn.jsdelivr.net/npm/github-markdown-css/github-markdown.min.css"  />
+<link rel="stylesheet" type="text/css" media="all" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release/build/styles/github.min.css"  /><meta name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no'><style> body { box-sizing: border-box; max-width: 740px; width: 100%; margin: 40px auto; padding: 0 10px; } </style><script id='MathJax-script' async src='https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js'></script><script src='https://cdn.jsdelivr.net/gh/highlightjs/cdn-release/build/highlight.min.js'></script><script>document.addEventListener('DOMContentLoaded', () => { document.body.classList.add('markdown-body'); document.querySelectorAll('pre[lang] > code').forEach((code) => { code.classList.add(code.parentElement.lang); }); document.querySelectorAll('pre > code').forEach((code) => { hljs.highlightBlock(code); }); });</script>
+</head>
+
+<body>
+
+<h1 id="网络请求库">网络请求库</h1>
+<h2 id="决策结果">决策结果</h2>
+<p>选择了 <strong>Ky</strong></p>
+<h2 id="前言">前言</h2>
+<p>网络请求库应该能完成 1. 请求 2. 设置base_url 3. 类似拦截器的功能 4.
+请求取消 5. 超时 6. 重试 7. 上传进度</p>
+<p>react生态唯一的体面(但context处理依然拉胯). 但也面临非常艰难的抉择:
+要不要拥抱rxjs.
+前端Promise向Observable转变还要多久(不光网络请求需要,DOM事件也需要啊)
+IE什么时候灭亡</p>
+<h2 id="选项总览">选项总览</h2>
+<table>
+<colgroup>
+<col style="width: 59%" />
+<col style="width: 15%" />
+<col style="width: 11%" />
+<col style="width: 13%" />
+</colgroup>
+<thead>
+<tr>
+<th>库名</th>
+<th>GitHub Stars</th>
+<th>首次发布</th>
+<th>最后更新</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://github.com/sindresorhus/ky">Ky</a></td>
+<td>15.1k</td>
+<td>2019年</td>
+<td>2024年12月</td>
+</tr>
+<tr>
+<td><a href="https://github.com/axios/axios">Axios</a></td>
+<td>107.0k</td>
+<td>2014年</td>
+<td>2024年12月</td>
+</tr>
+<tr>
+<td><a href="https://github.com/TanStack/query">TanStack Query</a></td>
+<td>45.8k</td>
+<td>2019年</td>
+<td>2024年12月</td>
+</tr>
+</tbody>
+</table>
+<p>更新于2025-07-14</p>
+<h2 id="选项分析">选项分析</h2>
+<h3 id="axios">Axios</h3>
+<p><strong>举例</strong></p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> axios <span class="im">from</span> <span class="st">&#39;axios&#39;</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co">// 创建实例</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> api <span class="op">=</span> axios<span class="op">.</span><span class="fu">create</span>({</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  baseURL<span class="op">:</span> <span class="st">&#39;https://api.example.com&#39;</span><span class="op">,</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  timeout<span class="op">:</span> <span class="dv">5000</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co">// 请求拦截器</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>api<span class="op">.</span><span class="at">interceptors</span><span class="op">.</span><span class="at">request</span><span class="op">.</span><span class="fu">use</span>(config <span class="kw">=&gt;</span> {</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  config<span class="op">.</span><span class="at">headers</span><span class="op">.</span><span class="at">Authorization</span> <span class="op">=</span> <span class="vs">`Bearer </span><span class="sc">${</span>token<span class="sc">}</span><span class="vs">`</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> config</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="co">// 发送请求</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> response <span class="op">=</span> <span class="cf">await</span> api<span class="op">.</span><span class="fu">get</span>(<span class="st">&#39;/users&#39;</span>)</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> user <span class="op">=</span> <span class="cf">await</span> api<span class="op">.</span><span class="fu">post</span>(<span class="st">&#39;/users&#39;</span><span class="op">,</span> { name<span class="op">:</span> <span class="st">&#39;John&#39;</span> })</span></code></pre></div>
+<p><strong>优点：</strong> - 目前主流,功能完善,没有太大毛病 -
+浏览器兼容性好，支持 IE - 可以显示上传进度</p>
+<p><strong>缺点：</strong> - 包体积相对较大</p>
+<h3 id="ky">Ky</h3>
+<p><strong>举例</strong></p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> ky <span class="im">from</span> <span class="st">&#39;ky&#39;</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co">// 创建实例</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> api <span class="op">=</span> ky<span class="op">.</span><span class="fu">create</span>({</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  prefixUrl<span class="op">:</span> <span class="st">&#39;https://api.example.com&#39;</span><span class="op">,</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  timeout<span class="op">:</span> <span class="dv">5000</span><span class="op">,</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  hooks<span class="op">:</span> {</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    beforeRequest<span class="op">:</span> [</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>      request <span class="kw">=&gt;</span> {</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>        request<span class="op">.</span><span class="at">headers</span><span class="op">.</span><span class="fu">set</span>(<span class="st">&#39;Authorization&#39;</span><span class="op">,</span> <span class="vs">`Bearer </span><span class="sc">${</span>token<span class="sc">}</span><span class="vs">`</span>)</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>      }</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>    ]</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="co">// 发送请求</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> users <span class="op">=</span> <span class="cf">await</span> api<span class="op">.</span><span class="fu">get</span>(<span class="st">&#39;users&#39;</span>)<span class="op">.</span><span class="fu">json</span>()</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> user <span class="op">=</span> <span class="cf">await</span> api<span class="op">.</span><span class="fu">post</span>(<span class="st">&#39;users&#39;</span><span class="op">,</span> { json<span class="op">:</span> { name<span class="op">:</span> <span class="st">&#39;John&#39;</span> } })<span class="op">.</span><span class="fu">json</span>()</span></code></pre></div>
+<p><strong>优点：</strong> - 包体积小 - 功能还算丰富</p>
+<p><strong>缺点：</strong> - 不支持IE - 不支持上传进度</p>
+<h3 id="tanstack-query-react-query">TanStack Query (React Query)</h3>
+<p>并不是网络请求库,但常常和网络请求库一同被提到,
+通常面向需要频繁更新数据的使用场景(比如股票大盘)</p>
+<p>功能 - 封装了isLoading, isError, Result这样的结果 -
+无感知复用结果(如果两个组件同时做类似请求,会用缓存结果代替) -
+自动重试失败请求,支持指数退避策略 - 后台自动重新获取数据,保持数据新鲜度
+- 窗口焦点重新获取,用户回到页面时自动刷新 - 网络重连时自动重新获取 -
+分页和无限查询支持 - 乐观更新,立即更新UI后同步到服务器 -
+离线支持,网络断开时仍能工作 - 请求去重,相同请求只发送一次 -
+内存和垃圾回收管理 - 支持SSR和水合</p>
+
+</body>
+</html>

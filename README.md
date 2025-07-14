@@ -10,30 +10,43 @@
 pnpm create vite@latest react-19-starter --template react-ts
 ```
 
-## 技术栈选型
+## 技术栈
 
-### 核心框架
-- **React 19** - 最新的 React 版本，支持并发特性和新的 Hooks
-- **Vite** - 快速的构建工具，支持 HMR
+- **React 19** + **TypeScript** + **Vite**
+- **Jotai** 状态管理 + **React Router** 路由
+- **Material-UI** 组件库 + **React Hook Form** + **Valibot** 验证
+- **Ky** 网络请求 + **JWT** 认证
+- **Biome** 代码检查 + **Vitest** 测试 + **Husky** Git hooks
 
-### 状态管理
-- **Jotai** - 轻量级原子化状态管理库
+## 快速开始
 
-### 路由
-- **React Router DOM** - React 应用的声明式路由
+```bash
+# 1. 安装依赖
+pnpm install
 
-### UI 库
-- **Material-UI** - Google Material Design 组件库
+# 2. 启动后端服务 (http://localhost:8080)
+cd backend && go run main.go
 
-### 表单处理
-- **React Hook Form** - 高性能表单库
-- **Valibot** - 轻量级的数据验证库
+# 3. 启动前端开发服务器 (http://localhost:5173)
+cd .. && pnpm dev
 
-### HTTP 客户端
-- **Ky** - 基于 Fetch API 的现代 HTTP 客户端
+# 4. 代码检查和格式化
+pnpm typecheck        # TypeScript 类型检查
+pnpm lint            # 代码检查
+pnpm format          # 代码格式化
 
-### 开发工具
-- **Biome** - 快速的代码格式化器和 linter，替代 ESLint 和 Prettier
-- **Vitest** - 基于 Vite 的测试框架
-- **Husky** - Git hooks 管理
-- **lint-staged** - 暂存文件 linting
+# 5. 运行测试
+pnpm test            # 运行测试
+pnpm test:watch      # 监听模式测试
+
+# 6. 生产构建
+pnpm build
+```
+
+## 核心功能
+
+- **JWT 认证系统** - 登录/登出、路由保护
+- **表单处理** - React Hook Form + Valibot 验证
+- **弹窗服务** - 统一的 Dialog 管理
+- **消息通知** - Toast 服务
+- **后端 API** - Go 示例服务器 (`backend/` 目录)
