@@ -16,4 +16,15 @@ export default defineConfig({
     environment: 'jsdom',
     exclude: ['**/node_modules/**', '**/dist/**'],
   },
+  build: {
+    rollupOptions: {
+      input: process.env.BUILD_SSR
+        ? {
+            main: path.resolve(__dirname, 'index-ssr.html'),
+          }
+        : {
+            main: path.resolve(__dirname, 'index.html'),
+          },
+    },
+  },
 });

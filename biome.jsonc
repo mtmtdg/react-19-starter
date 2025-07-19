@@ -145,7 +145,7 @@
     },
     {
       // 构建和工具脚本特定规则 - 允许console输出
-      "includes": ["scripts/**/*.{js,ts}", "server.ts"],
+      "includes": ["scripts/**/*.{js,ts}", "server.ts", "server-prod.ts"],
       "linter": {
         "rules": {
           "suspicious": {
