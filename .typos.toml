@@ -35,4 +35,4 @@ ignore-digits = true
 extend-glob = ["**/jwt.test.ts"]
 [type.jwt-related.extend-words]
 "alg" = "alg"
-"typ" = "typ
+"typ" = "typ"
