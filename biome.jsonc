@@ -18,11 +18,11 @@
       "**/*.{js,mjs,ts,jsx,tsx,json,jsonc}",
       // .gitignore 已经包含: node_modules, dist, .DS_Store 等
       // 这里只配置项目可能需要的额外忽略规则
-      "!**/.claude/**", // claude的工作目录
-      "!**/build/**", // 构建目录 (可能有不同名字)
-      "!**/coverage/**", // 测试覆盖率
-      "!**/.pnpm-store/**", // pnpm 缓存
-      "!**/.cache/**", // 各种缓存
+      "!**/.claude", // claude的工作目录
+      "!**/build", // 构建目录 (可能有不同名字)
+      "!**/coverage", // 测试覆盖率
+      "!**/.pnpm-store", // pnpm 缓存
+      "!**/.cache", // 各种缓存
       "!**/*.min.{js,css}" // 压缩文件
     ]
   },
@@ -60,9 +60,7 @@
           "options": {
             "maxAllowedComplexity": 15
           }
-        }
-      },
-      "nursery": {
+        },
         "noExcessiveLinesPerFunction": {
           "level": "error",
           "options": {
@@ -101,7 +99,7 @@
       "includes": ["**/*.tsx"],
       "linter": {
         "rules": {
-          "nursery": {
+          "complexity": {
             "noExcessiveLinesPerFunction": {
               "level": "error",
               "options": {
@@ -130,7 +128,7 @@
       "includes": ["**/*.test.{js,ts,tsx}"],
       "linter": {
         "rules": {
-          "nursery": {
+          "complexity": {
             "noExcessiveLinesPerFunction": {
               "level": "error",
               "options": {
